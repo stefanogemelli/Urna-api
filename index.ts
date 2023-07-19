@@ -1,6 +1,4 @@
-const express = require("express");
-
-const server = require("./src/server");
+import server from "./src/server";
 
 const PORT = 3001;
 
