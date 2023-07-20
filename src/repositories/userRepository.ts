@@ -7,3 +7,11 @@ export const list = async () => {
 export const create = async (user) => {
   return User.create(user);
 };
+
+export const findOrCreate = async (user) => {
+  return User.findOrCreate(user);
+};
+
+export const update = async (user) => {
+  return User.update(user);
+};
