@@ -1,1 +1,2 @@
-export * as catchedAsync from "./catchedAsync";
+export { catchedAsync } from "./catchedAsync";
+export { response } from "./response";
