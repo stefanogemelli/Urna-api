@@ -1,14 +1,9 @@
-// const { User } = require("../database/index");
+import { User } from "../database";
 
 export const list = async () => {
-  // const { data } = User.list();
-  const data = [
-    { name: "nombre1", lastname: "apellido1" },
-    { name: "nombre2", lastname: "apellido2" },
-  ];
-  return data;
+  return await User.list();
 };
 
-export const create = async () => {
-  return "hola";
+export const create = async (user) => {
+  return User.create(user);
 };
