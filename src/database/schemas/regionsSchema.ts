@@ -33,7 +33,7 @@ regionSchema.statics.getByName = async function (name) {
 };
 
 regionSchema.statics.findOrCreate = async function (regionToCreate) {
-  const region = await this.findOne({ email: regionToCreate.email });
+  const region = await this.findOne({ name: regionToCreate.name });
   if (region) return region;
   return await Region.create(regionToCreate);
 };
