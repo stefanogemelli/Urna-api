@@ -1,4 +1,3 @@
-import { ClientError } from "../../utils/errors";
 import { allowPropertiesValidator, emailValidator, passwordValidator } from "./validators";
 
 export const register = (req, res, next) => {

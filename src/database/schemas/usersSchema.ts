@@ -1,9 +1,7 @@
-// const { Schema } = require("mongoose");
 import { Schema, InferSchemaType, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 import { conn } from "..";
 
-// ejemplo de referencia
 export interface IUser {
   _id: string;
   username: string;
@@ -11,6 +9,7 @@ export interface IUser {
   password: string;
   avatar: string;
   region_id: string;
+  deleted: boolean;
 }
 export interface UserModel extends Model<IUser> {
   list(): Array<IUser>;
@@ -37,6 +36,7 @@ const userSchema = new Schema<IUser, UserModel>(
     password: { type: String, minlength: 6, maxlength: 40 },
     avatar: { type: String },
     region_id: { type: String, ref: "Region" },
+    deleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

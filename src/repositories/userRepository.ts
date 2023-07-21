@@ -1,4 +1,4 @@
-import { User } from "../database";
+import { User } from "../database/schemas";
 
 export const list = async () => {
   return await User.list();
