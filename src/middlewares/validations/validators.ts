@@ -13,3 +13,8 @@ export const passwordValidator = (password: string) => {
   if (password.length >= 6 && password.length <= 40) return;
   throw new ClientError("The password should have between 6 and 40 characters", 400);
 };
+
+export const regionNameValidator = (name: string) => {
+  if (name.length >= 3 && name.length <= 40) return;
+  throw new ClientError("The name should have between 3 and 40 characters", 400);
+};
