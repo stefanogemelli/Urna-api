@@ -1,4 +1,4 @@
-import { User } from "../repositories";
+import { UserRepository as User } from "../repositories";
 import { response } from "../utils";
 
 export const getUsers = async (req, res) => {

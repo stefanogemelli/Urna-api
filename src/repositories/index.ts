@@ -1,1 +1,2 @@
-export * as User from "./userRepository";
+export { UserRepository } from "./userRepository";
+export { RegionRepository } from "./regionRepository";

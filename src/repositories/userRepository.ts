@@ -1,17 +1,8 @@
 import { User } from "../database/schemas";
 
-export const list = async () => {
-  return await User.list();
-};
-
-export const create = async (user) => {
-  return User.create(user);
-};
-
-export const findOrCreate = async (user) => {
-  return User.findOrCreate(user);
-};
-
-export const update = async (user) => {
-  return User.update(user);
+export const UserRepository = {
+  list: async () => await User.list(),
+  create: async (user) => User.create(user),
+  findOrCreate: async (user) => User.findOrCreate(user),
+  update: async (user) => User.update(user),
 };
