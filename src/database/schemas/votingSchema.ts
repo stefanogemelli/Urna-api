@@ -1,10 +1,12 @@
 import { Schema, Model } from "mongoose";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4, validate as validateUUID } from "uuid";
 import { conn } from "../connection";
 
 export interface IVoting {
   _id: string;
+  user_id: string;
   title: string;
+  description: string;
   options: Array<string>;
   verified: boolean;
   opening_date: string;
@@ -22,7 +24,14 @@ const votingSchema = new Schema<IVoting, VotingModel>(
       type: String,
       default: () => uuidv4(),
     },
+    user_id: {
+      type: String,
+      ref: "User",
+      required: true,
+      validate: (user_id: string) => validateUUID(user_id),
+    },
     title: { type: String, required: true, unique: true, maxlength: 100 },
+    description: { type: String, required: true, unique: true, maxlength: 255 },
     options: [{ type: String, ref: "Options" }],
     verified: { type: Boolean, default: false },
     opening_date: {
