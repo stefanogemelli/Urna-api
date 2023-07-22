@@ -1,6 +1,6 @@
 import { Schema, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
-import { conn } from "..";
+import { conn } from "../connection";
 
 export interface IVoting {
   _id: string;
