@@ -9,6 +9,7 @@ export interface IUser {
   password: string;
   avatar: string;
   region_id: string;
+  role: string;
   deleted: boolean;
 }
 export interface UserModel extends Model<IUser> {
@@ -36,6 +37,11 @@ const userSchema = new Schema<IUser, UserModel>(
     password: { type: String, minlength: 6, maxlength: 40 },
     avatar: { type: String },
     region_id: { type: String, ref: "Region" },
+    role: {
+      type: String,
+      default: "user",
+      validate: (_role: string) => ["user", "moderator", "admin"].includes(_role),
+    },
     deleted: { type: Boolean, default: false },
   },
   { timestamps: true }
