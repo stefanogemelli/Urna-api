@@ -12,12 +12,6 @@ export const createUser = async (req, res) => {
   response(res, 201, newUser);
 };
 
-export const createUserWithOuth0 = async (req, res) => {
-  const userToCreate = req.body;
-  const newUser = await User.findOrCreate(userToCreate);
-  response(res, 201, newUser);
-};
-
 export const updateUser = async (req, res) => {
   const userToUpdate = req.body;
   const newUser = await User.update(userToUpdate);

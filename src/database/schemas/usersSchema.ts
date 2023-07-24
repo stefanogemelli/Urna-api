@@ -12,9 +12,9 @@ export interface IUser {
   deleted: boolean;
 }
 export interface UserModel extends Model<IUser> {
+  findByEmail(email: string): Array<IUser>;
   list(): Array<IUser>;
   get(): IUser;
-  findOrCreate(user: IUser): IUser;
   update(user: IUser): IUser;
 }
 
@@ -40,6 +40,9 @@ const userSchema = new Schema<IUser, UserModel>(
   },
   { timestamps: true }
 );
+userSchema.statics.findByEmail = async function (email) {
+  return await this.find({ email }, ["_id", "username", "email", "avatar", "region_id"]);
+};
 
 userSchema.statics.list = async function () {
   return await this.find();
@@ -47,12 +50,6 @@ userSchema.statics.list = async function () {
 
 userSchema.statics.get = async function (id) {
   return await this.findById(id);
-};
-
-userSchema.statics.findOrCreate = async function (userToCreate) {
-  const user = await this.findOne({ email: userToCreate.email });
-  if (user) return user;
-  return await User.create(userToCreate);
 };
 
 userSchema.statics.update = async function (userToUpdate) {
