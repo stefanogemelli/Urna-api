@@ -1,7 +1,7 @@
 import { URLSearchParams } from "url";
 import { UserRepository as User } from "../repositories";
-import dotenv from "dotenv";
-dotenv.config();
+import jwt from "jsonwebtoken";
+import { CLIENT_BASE_URL, JWT_SECRET } from "../config/envs";
 
 export const getUser = async (req, res) => {
   const userDataFromAuth0 = req.oidc.user;
@@ -10,9 +10,14 @@ export const getUser = async (req, res) => {
 
   if (userData.length > 0) {
     const userInfo = JSON.parse(JSON.stringify(userData[0] ?? {}));
+
+    const token = jwt.sign({ username: userInfo.username, email: userInfo.email }, JWT_SECRET);
+    console.log(token);
+    userInfo.token = token;
+
     const queryParams = new URLSearchParams(userInfo).toString();
 
-    res.redirect(302, `${process.env.CLIENT_BASE_URL}/votations?${queryParams}`);
+    res.redirect(302, `${CLIENT_BASE_URL}/votations?${queryParams}`);
   } else {
     const userInfo = {
       username: userDataFromAuth0.nickname,
@@ -20,6 +25,6 @@ export const getUser = async (req, res) => {
     };
     const queryParams = new URLSearchParams(userInfo).toString();
 
-    res.redirect(302, `${process.env.CLIENT_BASE_URL}/profile/complete?${queryParams}`);
+    res.redirect(302, `${CLIENT_BASE_URL}/profile/complete?${queryParams}`);
   }
 };
