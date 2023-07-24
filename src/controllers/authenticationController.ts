@@ -11,8 +11,7 @@ export const getUser = async (req, res) => {
   if (userData.length > 0) {
     const userInfo = JSON.parse(JSON.stringify(userData[0] ?? {}));
 
-    const token = jwt.sign({ username: userInfo.username, email: userInfo.email }, JWT_SECRET);
-    console.log(token);
+    const token = jwt.sign({ email: userInfo.email, role: userInfo.role }, JWT_SECRET);
     userInfo.token = token;
 
     const queryParams = new URLSearchParams(userInfo).toString();
