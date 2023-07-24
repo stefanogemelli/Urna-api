@@ -1,0 +1,42 @@
+src/
+|-- controllers/
+|   |-- index.ts                 
+|   |-- userController.ts
+|   └──...
+|-- database/
+|   |-- connection.ts
+|   |-- schemas/
+|   |   |-- index.ts
+|   |   |-- usersSchema.ts
+|   |   └── ...
+|   └── config/
+|       |-- envs.ts
+|       └── ...
+|-- helpers/                    #archivos de extraccion de lógica específica del proyecto
+|   └── ...
+|-- middlewares/
+|   |-- validations/
+|   |   |-- index.ts
+|   |   |-- validators.ts       #validadores de campos repetitivos entre los demás schemas
+|   |   |-- userValidation.ts
+|   |   └── ...
+|   └── ...
+|-- repositories/
+|   |-- index.ts
+|   |-- userRepository.ts
+|   └── ...
+|-- routes/
+|   |-- index.ts
+|   |-- userRouter.ts
+|   └── ...
+|-- utils/
+|   |-- index.ts
+|   |-- catchedAsync.ts
+|   |-- response.ts
+|   |-- errors/
+|   |   |-- index.ts
+|   |   |-- CientError.ts
+|   |   |-- errorHandler.ts
+|   |   └── ...
+|   └── ...
+└── server.ts
