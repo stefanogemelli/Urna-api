@@ -8,7 +8,7 @@ export const getUser = async (req, res) => {
 
   const userData = await User.findByEmail(userDataFromAuth0.email);
 
-  if (userData.length < 0) {
+  if (userData.length > 0) {
     const userInfo = JSON.parse(JSON.stringify(userData[0] ?? {}));
     const queryParams = new URLSearchParams(userInfo).toString();
 
