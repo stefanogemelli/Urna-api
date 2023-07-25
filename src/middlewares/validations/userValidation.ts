@@ -1,9 +1,20 @@
-import { allowPropertiesValidator, emailValidator, passwordValidator } from "./validators";
+import {
+  allowPropertiesValidator,
+  emailValidator,
+  passwordValidator,
+  usernameValidator,
+  avatarValidator,
+  idValidator,
+} from "./validators";
 
 export const register = (req, res, next) => {
-  const newUser = req.body;
-  emailValidator(newUser.email);
-  passwordValidator(newUser.password);
+  const { userProfile } = req.body;
+
+  usernameValidator(userProfile.username);
+  avatarValidator(userProfile.avatar);
+  emailValidator(userProfile.email);
+  passwordValidator(userProfile.password);
+  idValidator(userProfile.region_id);
 
   next();
 };
