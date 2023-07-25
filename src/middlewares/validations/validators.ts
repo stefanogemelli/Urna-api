@@ -13,7 +13,7 @@ export const usernameValidator = (username: string) => {
 
 export const avatarValidator = (avatar: string) => {
   if (typeof avatar === "string") return;
-  throw new ClientError("The avatar must have between 3 and 40 characters", 400);
+  throw new ClientError("The avatar must a string", 400);
 };
 export const idValidator = (_id: string) => {
   try {

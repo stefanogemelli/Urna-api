@@ -1,20 +1,18 @@
 import {
   allowPropertiesValidator,
   emailValidator,
-  passwordValidator,
   usernameValidator,
   avatarValidator,
   idValidator,
 } from "./validators";
 
 export const register = (req, res, next) => {
-  const { userProfile } = req.body;
+  const { profileInfo } = req.body;
 
-  usernameValidator(userProfile.username);
-  avatarValidator(userProfile.avatar);
-  emailValidator(userProfile.email);
-  passwordValidator(userProfile.password);
-  idValidator(userProfile.region_id);
+  usernameValidator(profileInfo.username);
+  avatarValidator(profileInfo.avatar);
+  emailValidator(profileInfo.email);
+  idValidator(profileInfo.region_id);
 
   next();
 };
