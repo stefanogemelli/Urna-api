@@ -15,6 +15,8 @@ export const getUser = async (req, res) => {
     userInfo.token = token;
 
     const queryParams = new URLSearchParams(userInfo).toString();
+    
+    res.cookie('token', token, { httpOnly: true, maxAge: 3600000 });
 
     res.redirect(302, `${CLIENT_BASE_URL}/votations?${queryParams}`);
   } else {
