@@ -7,8 +7,8 @@ export const getUsers = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-  const { userProfile } = req.body;
-  const newUser = await User.create(userProfile);
+  const { profileInfo } = req.body;
+  const newUser = await User.create(profileInfo);
   response(res, 201, newUser);
 };
 
