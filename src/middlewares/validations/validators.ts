@@ -6,6 +6,15 @@ export const allowPropertiesValidator = (objectData, allowProperties: Array<Stri
     throw new ClientError("Disallowed properties", 403);
 };
 
+export const usernameValidator = (username: string) => {
+  if (username.length >= 3 && username.length <= 40) return;
+  throw new ClientError("The username must have between 3 and 40 characters", 400);
+};
+
+export const avatarValidator = (avatar: string) => {
+  if (typeof avatar === "string") return;
+  throw new ClientError("The avatar must have between 3 and 40 characters", 400);
+};
 export const idValidator = (_id: string) => {
   try {
     validate(_id);
