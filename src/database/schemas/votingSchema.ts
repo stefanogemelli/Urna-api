@@ -16,6 +16,7 @@ export interface VotingModel extends Model<IVoting> {
   verifiedList(): Array<IVoting>;
   listToVerify(): Array<IVoting>;
   update(voting: IVoting): IVoting;
+  getById(id:string):IVoting;
 }
 
 const votingSchema = new Schema<IVoting, VotingModel>(
@@ -32,7 +33,7 @@ const votingSchema = new Schema<IVoting, VotingModel>(
     },
     title: { type: String, required: true, unique: true, maxlength: 100 },
     description: { type: String, required: true, unique: true, maxlength: 255 },
-    options: [{ type: String, ref: "Options" }],
+    options: [{ type: String, ref: "Option" }],
     verified: { type: Boolean, default: false },
     opening_date: {
       type: String,
@@ -59,6 +60,11 @@ votingSchema.statics.listToVerify = async function () {
 votingSchema.statics.update = async function (votingToUpdate) {
   const query = { _id: votingToUpdate._id };
   return await this.findOneAndUpdate(query, votingToUpdate);
+};
+
+votingSchema.statics.getById = async function (id:string) {
+  return await this.findById(id,["_id","title","description","options","opening_date","closing_date"])
+  .populate("options",["_id","title","image"]);
 };
 
 export const Voting = conn.model<IVoting, VotingModel>("Voting", votingSchema);

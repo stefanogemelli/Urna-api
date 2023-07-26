@@ -16,3 +16,8 @@ export const create = async (req, res) => {
   const newVoting = await Voting.create(votingToCreate);
   response(res, 201, newVoting);
 };
+export const getById = async (req, res) => {
+  const {id} = req.params;
+  const votation = await Voting.getById(id);
+  response(res, 200, votation);
+};

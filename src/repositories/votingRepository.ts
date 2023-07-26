@@ -5,5 +5,6 @@ export const VotingRepository = {
   listToVerify: async () => await Voting.listToVerify(),
   create: async (voting) => Voting.create(voting),
   update: async (voting) => Voting.update(voting),
+  getById: async (id:string) => Voting.getById(id)
   // delete: async (id) => Voting.delete(id),
 };

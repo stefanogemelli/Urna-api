@@ -9,6 +9,8 @@ const router = Router();
 // recibe por query la prop "verified" = true/false
 router.get("/", catchedAsync(Voting.getAll));
 
+router.get("/:id", catchedAsync(Voting.getById));
+
 router.post("/", accessRoleChecker("user"), votingValidation.create, catchedAsync(Voting.create));
 
 // router.patch("/:id", userValidation.update, catchedAsync(User.updateUser));
