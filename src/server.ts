@@ -17,12 +17,13 @@ const userLimiter = rateLimit({
   },
 });
 const loopPrevent = rateLimit({
-  windowMs: 5 * 1000,
-  max: 10,
+  windowMs: 10 * 1000,
+  max: 5,
   keyGenerator: (req) => req.ip,
   skipFailedRequests: true,
   handler: (req, res) => {
     res.status(429).send("Too many requests from this user, please try again later.");
+    process.exit(1);
   },
 });
 const server = express();
