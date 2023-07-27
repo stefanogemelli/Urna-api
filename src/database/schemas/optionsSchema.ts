@@ -5,24 +5,21 @@ import { conn } from "../connection";
 export interface IOption {
   _id: string;
   title: string;
-  image: string;
+  images: string;
 }
 
 export interface OptionModel extends Model<IOption> {
   list(): Array<IOption>;
 }
 
-const optionSchema = new Schema<IOption, OptionModel>(
-  {
-    _id: {
-      type: String,
-      default: () => uuidv4(),
-    },
-    title: { type: String, required: true, unique: true, maxlength: 100 },
-    image: { type: String, required: true },
+const optionSchema = new Schema<IOption, OptionModel>({
+  _id: {
+    type: String,
+    default: () => uuidv4(),
   },
-  { timestamps: true }
-);
+  title: { type: String, required: true, unique: true, maxlength: 100 },
+  images: [{ type: String }],
+});
 
 optionSchema.statics.list = async function () {
   return await this.find();
