@@ -50,13 +50,9 @@ export const create = async (req, res) => {
     newVotingData.options[index].images.push(result.secure_url);
   }
 
-  console.log(newVotingData);
+  const newVoting = await Voting.create(newVotingData);
 
-  // Pendiente:
-  // verificar la correcta creacion de la nueva votacion (metodo y schema)
-  // const newVoting = Voting.create(newVotingData);
-
-  response(res, 201, newVotingData);
+  response(res, 201, newVoting);
 };
 
 export const getById = async (req, res) => {

@@ -2,12 +2,16 @@ import { Schema, Model } from "mongoose";
 import { v4 as uuidv4, validate as validateUUID } from "uuid";
 import { conn } from "../connection";
 
+export interface IOption {
+  title: string;
+  images: Array<string>;
+}
 export interface IVoting {
   _id: string;
   user_id: string;
   title: string;
   description: string;
-  options: Array<string>;
+  options: Array<IOption>;
   verified: boolean;
   opening_date: string;
   closing_date: string;
@@ -16,7 +20,8 @@ export interface VotingModel extends Model<IVoting> {
   verifiedList(): Array<IVoting>;
   listToVerify(): Array<IVoting>;
   update(voting: IVoting): IVoting;
-  getById(id:string):IVoting;
+  getById(id: string): IVoting;
+  insertNew(newVotingData): IVoting;
 }
 
 const votingSchema = new Schema<IVoting, VotingModel>(
@@ -33,7 +38,12 @@ const votingSchema = new Schema<IVoting, VotingModel>(
     },
     title: { type: String, required: true, unique: true, maxlength: 100 },
     description: { type: String, required: true, unique: true, maxlength: 255 },
-    options: [{ type: String, ref: "Option" }],
+    options: [
+      {
+        title: { type: String, required: true },
+        images: [{ type: String }],
+      },
+    ],
     verified: { type: Boolean, default: false },
     opening_date: {
       type: String,
@@ -62,9 +72,21 @@ votingSchema.statics.update = async function (votingToUpdate) {
   return await this.findOneAndUpdate(query, votingToUpdate);
 };
 
-votingSchema.statics.getById = async function (id:string) {
-  return await this.findById(id,["_id","title","description","options","opening_date","closing_date"])
-  .populate("options",["_id","title","image"]);
+votingSchema.statics.getById = async function (id: string) {
+  return await this.findById(id, [
+    "_id",
+    "title",
+    "description",
+    "options",
+    "opening_date",
+    "closing_date",
+  ]).populate("options", ["_id", "title", "image"]);
 };
 
+votingSchema.statics.insertNew = async function (newVotingData) {
+  const { _id, title, description, options, opening_date, closing_date } = await this.create(
+    newVotingData
+  );
+  return { _id, title, description, options, opening_date, closing_date };
+};
 export const Voting = conn.model<IVoting, VotingModel>("Voting", votingSchema);
