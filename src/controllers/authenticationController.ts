@@ -13,8 +13,8 @@ export const getUser = async (req, res) => {
 
     const token = jwt.sign({ email: userInfo.email, role: userInfo.role }, JWT_SECRET);
 
-    res.cookie("token", token, { httpOnly: true, maxAge: 3600000 });
-    res.cookie("userData", userInfo, { httpOnly: true, maxAge: 3600000 });
+    res.cookie("token", token, { HttpOnly: true, maxAge: 3600000 });
+    res.cookie("userData", userInfo, { maxAge: 3600000 });
 
     res.redirect(302, `${CLIENT_BASE_URL}/votations`);
   } else {
