@@ -11,7 +11,7 @@ export const getUser = async (req, res) => {
   if (userData.length > 0) {
     const userInfo = JSON.parse(JSON.stringify(userData[0] ?? {}));
 
-    const token = jwt.sign({ email: userInfo.email, role: userInfo.role }, JWT_SECRET);
+    const token = jwt.sign({ user_id: userInfo._id, role: userInfo.role }, JWT_SECRET);
 
     res.cookie("token", token, { HttpOnly: true, maxAge: 3600000 });
     res.cookie("userData", userInfo, { maxAge: 3600000 });
