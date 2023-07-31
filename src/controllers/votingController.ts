@@ -21,7 +21,8 @@ export const getAll = async (req, res) => {
 
 export const create = async (req, res) => {
   const images = req.files;
-  const { user_id, title, description, opening_date, closing_date, ...optionTitles } = req.body;
+  const { title, description, opening_date, closing_date, ...optionTitles } = req.body;
+  const { user_id } = req;
 
   const newVotingData = {
     user_id,
