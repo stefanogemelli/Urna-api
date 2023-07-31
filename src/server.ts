@@ -37,6 +37,7 @@ server.use(
   cors({
     origin: CLIENT_BASE_URL,
     optionsSuccessStatus: 200,
+    credentials: true,
   })
 );
 server.use(morgan("dev"));
