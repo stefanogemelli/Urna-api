@@ -60,3 +60,7 @@ export const getById = async (req, res) => {
   const votation = await Voting.getById(id);
   response(res, 200, votation);
 };
+export const getTitles = async (req, res) => {
+  const titles = await Voting.getTitles();
+  response(res, 200, titles);
+};
