@@ -6,5 +6,6 @@ export const VotingRepository = {
   create: async (newVotingData) => Voting.insertNew(newVotingData),
   update: async (voting) => Voting.update(voting),
   getById: async (id: string) => Voting.getById(id),
+  getTitles: async () => Voting.getTitles(),
   // delete: async (id) => Voting.delete(id),
 };

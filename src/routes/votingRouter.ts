@@ -14,6 +14,8 @@ const router = Router();
 // recibe por query la prop "verified" = true/false
 router.get("/", catchedAsync(Voting.getAll));
 
+router.get("/titles", catchedAsync(Voting.getTitles));
+
 router.get("/:id", catchedAsync(Voting.getById));
 
 router.post("/", upload.any(), catchedAsync(Voting.create));
