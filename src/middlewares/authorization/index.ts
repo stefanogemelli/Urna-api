@@ -8,11 +8,19 @@ const accessVerifier = {
   user: (role: string) => role == "user",
 };
 
-export const accessRoleChecker = (role: string) => {
+/**
+ *
+ * @param role user | moderator | admin
+ * @returns
+ */
+export const accessChecker = (role: string) => {
   return (req, res, next) => {
-    const token = req.headers.authorization.slice(7);
+    const token = req.cookies.token;
+
     const decoded = jwt.verify(token, JWT_SECRET);
+
     if (accessVerifier[decoded.role](role)) {
+      req.user_id = decoded.user_id;
       next();
     } else {
       throw new ClientError("Access denied", 401);

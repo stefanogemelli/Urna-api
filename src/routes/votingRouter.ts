@@ -2,7 +2,7 @@ import Router from "express";
 import { Voting } from "../controllers";
 import { catchedAsync } from "../utils";
 import { votingValidation } from "../middlewares/validations";
-import { accessRoleChecker } from "../middlewares/authorization";
+import { accessChecker } from "../middlewares/authorization";
 
 import multer from "multer";
 
@@ -18,7 +18,7 @@ router.get("/titles", catchedAsync(Voting.getTitles));
 
 router.get("/:id", catchedAsync(Voting.getById));
 
-router.post("/", upload.any(), catchedAsync(Voting.create));
+router.post("/", accessChecker("user"), upload.any(), catchedAsync(Voting.create));
 
 // router.patch("/:id", userValidation.update, catchedAsync(User.updateUser));
 
