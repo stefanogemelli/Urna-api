@@ -47,7 +47,7 @@ const userSchema = new Schema<IUser, UserModel>(
   { timestamps: true }
 );
 userSchema.statics.findByEmail = async function (email) {
-  return await this.find({ email }, ["_id", "username", "email", "avatar", "region_id"]);
+  return await this.find({ email }, ["_id", "username", "email", "avatar", "region_id", "role"]);
 };
 
 userSchema.statics.list = async function () {
