@@ -21,11 +21,15 @@ export const getUser = async (req, res) => {
     const userInfo = {
       username: userDataFromAuth0.nickname,
       email: userDataFromAuth0.email,
+      avatar: userDataFromAuth0.picture,
     };
     res.cookie("username", userInfo.username, {
       maxAge: 3600000,
     });
     res.cookie("email", userInfo.email, {
+      maxAge: 3600000,
+    });
+    res.cookie("avatar", userInfo.avatar, {
       maxAge: 3600000,
     });
     res.redirect(302, `${CLIENT_BASE_URL}/profile/complete`);
