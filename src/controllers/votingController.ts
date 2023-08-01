@@ -1,4 +1,4 @@
-import { VotingRepository as Voting } from "../repositories";
+import { VoteRepository as Vote, VotingRepository as Voting } from "../repositories";
 import { response } from "../utils";
 import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } from "../config/envs";
 import { v2 as cloudinary } from "cloudinary";
@@ -59,7 +59,9 @@ export const create = async (req, res) => {
 export const getById = async (req, res) => {
   const { id } = req.params;
   const votation = await Voting.getById(id);
-  response(res, 200, votation);
+  const votes = await Vote.getByVotingId(id);
+
+  response(res, 200, { votation, votes });
 };
 export const getTitles = async (req, res) => {
   const titles = await Voting.getTitles();
