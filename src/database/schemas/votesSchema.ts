@@ -42,7 +42,7 @@ const voteSchema = new Schema<IVote, VoteModel>(
 );
 
 voteSchema.statics.findByVotingId = async function (voting_id: string) {
-  return await this.find({ voting_id, deleted: false });
+  return await this.find({ voting_id });
 };
 
 export const Vote = conn.model<IVote, VoteModel>("Vote", voteSchema);
