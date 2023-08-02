@@ -5,7 +5,6 @@ import { conn } from "../connection";
 export interface ILike {
   _id: string;
   user_id: string;
-  comment_id: string;
   response_id: string;
   vote_id: string;
 }
@@ -22,11 +21,6 @@ const likeSchema = new Schema<ILike, LikeModel>({
     required: true,
     validate: (userId: string) => validateUUID(userId),
     ref: "User",
-  },
-  comment_id: {
-    type: String,
-    validate: (commentId: string) => validateUUID(commentId),
-    ref: "Comment",
   },
   response_id: {
     type: String,
