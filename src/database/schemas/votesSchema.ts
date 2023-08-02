@@ -6,7 +6,7 @@ export interface IVote {
   _id: string;
   user_id: string;
   voting_id: string;
-  option_id: string;
+  option_title: string;
   comment: string;
   deleted: boolean;
 }
@@ -32,14 +32,11 @@ const voteSchema = new Schema<IVote, VoteModel>(
       required: true,
       validate: (voting_id: string) => validateUUID(voting_id),
     },
-    option_id: {
+    option_title: {
       type: String,
-      ref: "Option",
       required: true,
-      validate: (option_id: string) => validateUUID(option_id),
     },
     comment: { type: String, maxlength: 255 },
-    deleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
