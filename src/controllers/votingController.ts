@@ -58,10 +58,12 @@ export const create = async (req, res) => {
 
 export const getById = async (req, res) => {
   const { id } = req.params;
+  const { user_id } = req;
   const votation = await Voting.getById(id);
   const votes = await Vote.getByVotingId(id);
+  const alreadyVoted: boolean = votes.some((vote) => vote.user_id === user_id);
 
-  response(res, 200, { votation, votes });
+  response(res, 200, { votation, votes, alreadyVoted });
 };
 export const getTitles = async (req, res) => {
   const titles = await Voting.getTitles();
