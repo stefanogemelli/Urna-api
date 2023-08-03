@@ -9,6 +9,7 @@ export interface IResponse {
   receiver_id: string;
   body: string;
   pinned: boolean;
+  likes: Array<string>;
   deleted: boolean;
 }
 
@@ -52,6 +53,7 @@ const responseSchema = new Schema<IResponse, ResponseModel>(
       type: Boolean,
       default: false,
     },
+    likes: [{ type: String, ref: "User", default: [] }],
     deleted: {
       type: Boolean,
       default: false,
@@ -60,7 +62,7 @@ const responseSchema = new Schema<IResponse, ResponseModel>(
   { timestamps: true }
 );
 responseSchema.statics.getByVoteId = async function (vote_id) {
-  return await this.find({vote_id});
+  return await this.find({ vote_id });
 };
 
 export const Response = conn.model<IResponse, ResponseModel>("Response", responseSchema);

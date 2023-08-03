@@ -18,7 +18,7 @@ router.use("/regions", regionRouter);
 
 router.use("/voting", votingRouter);
 
-router.use("/vote", voteRouter);
+router.use("/votes", voteRouter);
 
 router.use("/responses", responseRouter);
 

@@ -4,4 +4,3 @@ export * as Voting from "./votingController";
 export * as Authentication from "./authenticationController";
 export * as Vote from "./voteController";
 export * as Response from "./responseController";
-export * as Like from "./likeController";

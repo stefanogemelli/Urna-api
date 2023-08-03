@@ -9,12 +9,12 @@ export interface IVote {
   voting_id: string;
   option_title: string;
   comment: string;
-  like_ids: 
-  deleted: boolean;
+  likes: Array<string>;
 }
 export interface VoteModel extends Model<IVote> {
   findByVotingId(voting_id: string): Array<IVote>;
   insert(newVote: IVote): Promise<IVote>;
+  addOrRemoveLike(likeData: { user_id: string; vote_id: string }): Promise<{ result: string }>;
 }
 
 const voteSchema = new Schema<IVote, VoteModel>(
@@ -40,6 +40,7 @@ const voteSchema = new Schema<IVote, VoteModel>(
       required: true,
     },
     comment: { type: String, maxlength: 255 },
+    likes: [{ type: String, ref: "User", validate: (user_id: string) => validateUUID(user_id) }],
   },
   { timestamps: true }
 );
@@ -56,6 +57,18 @@ voteSchema.statics.insert = async function (voteData: IVote) {
   if (alreadyVoted) throw new ClientError("Solo puede votar una vez", 406);
 
   return await this.create(voteData);
+};
+voteSchema.statics.addOrRemoveLike = async function (likeData) {
+  const { vote_id, user_id } = likeData;
+  const vote = await this.findById(vote_id);
+  if (vote.likes.includes(user_id)) {
+    vote.likes = vote.likes.filter((like) => like !== user_id);
+    await vote.save();
+    return { result: "dislike" };
+  }
+  vote.likes.push(user_id);
+  await vote.save();
+  return { result: "like" };
 };
 
 export const Vote = conn.model<IVote, VoteModel>("Vote", voteSchema);

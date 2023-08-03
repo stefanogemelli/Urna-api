@@ -8,4 +8,6 @@ const router = Router();
 
 router.post("/", accessChecker("user"), voteValidation.create, catchedAsync(Vote.create));
 
+router.patch("/:id/likes", accessChecker("user"), catchedAsync(Vote.like));
+
 export default router;
