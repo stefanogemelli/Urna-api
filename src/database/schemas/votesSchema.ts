@@ -9,6 +9,7 @@ export interface IVote {
   voting_id: string;
   option_title: string;
   comment: string;
+  like_ids: 
   deleted: boolean;
 }
 export interface VoteModel extends Model<IVote> {
