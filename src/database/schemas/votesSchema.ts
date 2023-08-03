@@ -1,6 +1,7 @@
 import { Schema, Model } from "mongoose";
 import { v4 as uuidv4, validate as validateUUID } from "uuid";
 import { conn } from "../connection";
+import { ClientError } from "../../utils/errors";
 
 export interface IVote {
   _id: string;
@@ -12,6 +13,7 @@ export interface IVote {
 }
 export interface VoteModel extends Model<IVote> {
   findByVotingId(voting_id: string): Array<IVote>;
+  insert(newVote: IVote): Promise<IVote>;
 }
 
 const voteSchema = new Schema<IVote, VoteModel>(
@@ -43,6 +45,16 @@ const voteSchema = new Schema<IVote, VoteModel>(
 
 voteSchema.statics.findByVotingId = async function (voting_id: string) {
   return await this.find({ voting_id });
+};
+
+voteSchema.statics.insert = async function (voteData: IVote) {
+  const alreadyVoted = await this.findOne({
+    user_id: voteData.user_id,
+    voting_id: voteData.voting_id,
+  });
+  if (alreadyVoted) throw new ClientError("Solo puede votar una vez", 406);
+
+  return await this.create(voteData);
 };
 
 export const Vote = conn.model<IVote, VoteModel>("Vote", voteSchema);

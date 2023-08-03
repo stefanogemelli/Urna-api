@@ -9,7 +9,9 @@ export interface ILike {
   vote_id: string;
 }
 
-export interface LikeModel extends Model<ILike> {}
+export interface LikeModel extends Model<ILike> {
+  createOrDelete(likeData: ILike): Promise<{ action: string }>;
+}
 
 const likeSchema = new Schema<ILike, LikeModel>({
   _id: {
@@ -33,5 +35,15 @@ const likeSchema = new Schema<ILike, LikeModel>({
     ref: "Vote",
   },
 });
+
+likeSchema.statics.createOrDelete = async function (likeData) {
+  const searchedLike = await this.findOne(likeData);
+  if (searchedLike) {
+    await this.deleteOne(likeData);
+    return { action: "deleted" };
+  }
+  await this.create(likeData);
+  return { action: "created" };
+};
 
 export const Like = conn.model<ILike, LikeModel>("Like", likeSchema);

@@ -4,6 +4,7 @@ import regionRouter from "./regionRouter";
 import votingRouter from "./votingRouter";
 import voteRouter from "./voteRouter";
 import responseRouter from "./responseRouter";
+import likeRouter from "./likeRouter";
 import authenticationRouter from "./authenticationRouter";
 
 const router = Router();
@@ -21,5 +22,7 @@ router.use("/voting", votingRouter);
 router.use("/vote", voteRouter);
 
 router.use("/responses", responseRouter);
+
+router.use("/likes", likeRouter);
 
 export default router;
