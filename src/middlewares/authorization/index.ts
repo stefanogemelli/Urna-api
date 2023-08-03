@@ -15,15 +15,19 @@ const accessVerifier = {
  */
 export const accessChecker = (role: string) => {
   return (req, res, next) => {
-    const token = req.cookies.token;
+    try {
+      const token = req.cookies.token;
 
-    const decoded = jwt.verify(token, JWT_SECRET);
+      const decoded = jwt.verify(token, JWT_SECRET);
 
-    if (accessVerifier[decoded.role](role)) {
-      req.user_id = decoded.user_id;
-      next();
-    } else {
-      throw new ClientError("Access denied", 401);
+      if (accessVerifier[decoded.role](role)) {
+        req.user_id = decoded.user_id;
+        next();
+      } else {
+        throw new ClientError("Access denied", 401);
+      }
+    } catch (error) {
+      throw new ClientError(error.message, 401);
     }
   };
 };
