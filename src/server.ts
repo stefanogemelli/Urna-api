@@ -18,7 +18,7 @@ const userLimiter = rateLimit({
 });
 const loopPrevent = rateLimit({
   windowMs: 10 * 1000,
-  max: 5,
+  max: 15,
   keyGenerator: (req) => req.ip,
   skipFailedRequests: true,
   handler: (req, res) => {

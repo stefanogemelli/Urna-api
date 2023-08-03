@@ -16,7 +16,7 @@ router.get("/", catchedAsync(Voting.getAll));
 
 router.get("/titles", catchedAsync(Voting.getTitles));
 
-router.get("/:id", catchedAsync(Voting.getById));
+router.get("/:id", accessChecker("user"), catchedAsync(Voting.getById));
 
 router.post("/", accessChecker("user"), upload.any(), catchedAsync(Voting.create));
 
