@@ -10,11 +10,13 @@ export interface IVote {
   option_title: string;
   comment: string;
   likes: Array<string>;
+  responses: Array<string>;
 }
 export interface VoteModel extends Model<IVote> {
   findByVotingId(voting_id: string): Array<IVote>;
-  insert(newVote: IVote): Promise<IVote>;
-  addOrRemoveLike(likeData: { user_id: string; vote_id: string }): Promise<{ result: string }>;
+  getWithResponses(id: string): IVote;
+  insert(newVote: IVote): IVote;
+  addOrRemoveLike(likeData: { user_id: string; vote_id: string }): { result: string };
 }
 
 const voteSchema = new Schema<IVote, VoteModel>(
@@ -41,6 +43,13 @@ const voteSchema = new Schema<IVote, VoteModel>(
     },
     comment: { type: String, maxlength: 255 },
     likes: [{ type: String, ref: "User", validate: (user_id: string) => validateUUID(user_id) }],
+    responses: [
+      {
+        type: String,
+        ref: "Response",
+        validate: (response_id: string) => validateUUID(response_id),
+      },
+    ],
   },
   { timestamps: true }
 );
@@ -49,6 +58,9 @@ voteSchema.statics.findByVotingId = async function (voting_id: string) {
   return await this.find({ voting_id });
 };
 
+voteSchema.statics.getWithResponses = async function (id: string) {
+  return (await this.findById(id)).populate("responses");
+};
 voteSchema.statics.insert = async function (voteData: IVote) {
   const alreadyVoted = await this.findOne({
     user_id: voteData.user_id,
