@@ -2,7 +2,7 @@ import { VoteRepository as Vote } from "../repositories";
 import { response } from "../utils";
 
 export const create = async (req, res) => {
-  const { user_id } = req.body;
+  const { user_id } = req;
   const { voteData } = req.body;
   voteData.user_id = user_id;
 
