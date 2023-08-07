@@ -20,4 +20,6 @@ router.use("/", auth(config));
 
 router.get("/", catchedAsync(Authentication.getUser));
 
+router.post("/", catchedAsync(Authentication.logout));
+
 export default router;
