@@ -2,6 +2,7 @@ import { URLSearchParams } from "url";
 import { UserRepository as User } from "../repositories";
 import jwt from "jsonwebtoken";
 import { CLIENT_BASE_URL, JWT_SECRET } from "../config/envs";
+import { response } from "../utils";
 
 export const getUser = async (req, res) => {
   const userDataFromAuth0 = req.oidc.user;
@@ -42,5 +43,6 @@ export const logout = async (req, res) => {
   jwt.revoke(token);
 
   res.clearCookie("token");
-  res.redirect(200, CLIENT_BASE_URL);
+  // res.redirect(200, CLIENT_BASE_URL);
+  response(res, 200, "ok");
 };
