@@ -13,7 +13,7 @@ export interface IVote {
   responses: Array<string>;
 }
 export interface VoteModel extends Model<IVote> {
-  findByVotingId(voting_id: string): Array<IVote>;
+  findByVotingId(voting_id: string): any;
   getWithResponses(id: string): IVote;
   insert(newVote: IVote): IVote;
   setResponse(data): IVote;
@@ -56,7 +56,7 @@ const voteSchema = new Schema<IVote, VoteModel>(
 );
 
 voteSchema.statics.findByVotingId = async function (voting_id: string) {
-  return await this.find({ voting_id });
+  return await this.find({ voting_id }).populate("user_id",["username"]);
 };
 
 voteSchema.statics.getWithResponses = async function (id: string) {
