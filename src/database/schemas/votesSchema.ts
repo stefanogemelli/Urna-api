@@ -60,7 +60,16 @@ voteSchema.statics.findByVotingId = async function (voting_id: string) {
 };
 
 voteSchema.statics.getWithResponses = async function (id: string) {
-  return await this.findById(id).populate("user_id", ["_id", "username"]).populate("responses");
+  return await this.findById(id)
+    .populate("user_id", ["_id", "username"])
+    .populate({
+      path: "responses",
+      populate: { path: "receiver_id", select: "username avatar" },
+    })
+    .populate({
+      path: "responses",
+      populate: { path: "emitter_id", select: "username avatar" },
+    });
 };
 voteSchema.statics.insert = async function (voteData: IVote) {
   const alreadyVoted = await this.findOne({
