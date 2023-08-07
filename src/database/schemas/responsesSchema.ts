@@ -26,21 +26,18 @@ const responseSchema = new Schema<IResponse, ResponseModel>(
     vote_id: {
       type: String,
       required: true,
-      unique: true,
       validate: (voteId: string) => validateUUID(voteId),
       ref: "Vote",
     },
     emitter_id: {
       type: String,
       required: true,
-      unique: true,
       validate: (emitterId: string) => validateUUID(emitterId),
       ref: "User",
     },
     receiver_id: {
       type: String,
       required: true,
-      unique: true,
       validate: (receiverId: string) => validateUUID(receiverId),
       ref: "User",
     },
