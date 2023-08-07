@@ -40,9 +40,7 @@ export const getUser = async (req, res) => {
 export const logout = async (req, res) => {
   const token = req.cookies.token;
   jwt.verify(token, JWT_SECRET);
-  jwt.revoke(token);
 
   res.clearCookie("token");
-  // res.redirect(200, CLIENT_BASE_URL);
   response(res, 200, "ok");
 };
