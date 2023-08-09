@@ -56,12 +56,12 @@ const voteSchema = new Schema<IVote, VoteModel>(
 );
 
 voteSchema.statics.findByVotingId = async function (voting_id: string) {
-  return await this.find({ voting_id }).populate("user_id",["username"]);
+  return await this.find({ voting_id }).populate("user_id", ["username"]);
 };
 
 voteSchema.statics.getWithResponses = async function (id: string) {
   return await this.findById(id)
-    .populate("user_id", ["_id", "username"])
+    .populate("user_id", ["_id", "username", "avatar"])
     .populate({
       path: "responses",
       populate: { path: "receiver_id", select: "username avatar" },
