@@ -19,3 +19,12 @@ export const create = async (req, res) => {
   });
   response(res, 201, { newResponse, updatedVote });
 };
+
+export const like = async (req, res) => {
+  const { user_id } = req;
+  const { id: response_id } = req.params;
+
+  const likeData = { user_id, response_id };
+  const result = await Response.addOrRemoveLike(likeData);
+  response(res, 201, result);
+};

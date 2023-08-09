@@ -7,6 +7,9 @@ import { voteValidation } from "../middlewares/validations";
 const router = Router();
 
 router.post("/", accessChecker("user"), catchedAsync(Response.create));
+
 router.get("/vote/:id", accessChecker("user"), catchedAsync(Response.getByVoteId));
+
+router.patch("/:id/likes", accessChecker("user"), catchedAsync(Response.like));
 
 export default router;
