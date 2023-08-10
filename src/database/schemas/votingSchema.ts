@@ -22,7 +22,7 @@ export interface VotingModel extends Model<IVoting> {
   update(voting: IVoting): IVoting;
   getById(id: string): IVoting;
   insertNew(newVotingData): IVoting;
-  getTitles():Array<{_id:string,title:string}>;
+  getTitles(): Array<{ _id: string; title: string }>;
 }
 
 const votingSchema = new Schema<IVoting, VotingModel>(
@@ -45,7 +45,7 @@ const votingSchema = new Schema<IVoting, VotingModel>(
         images: [{ type: String }],
       },
     ],
-    verified: { type: Boolean, default: false },
+    verified: { type: Boolean, default: true },
     opening_date: {
       type: String,
       required: true,
@@ -92,7 +92,7 @@ votingSchema.statics.insertNew = async function (newVotingData) {
 };
 
 votingSchema.statics.getTitles = async function () {
-  return await this.find({},["title"]);
+  return await this.find({}, ["title"]);
 };
 
 export const Voting = conn.model<IVoting, VotingModel>("Voting", votingSchema);
