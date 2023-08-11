@@ -7,6 +7,10 @@ import cors from "cors";
 import { CLIENT_BASE_URL } from "./config/envs";
 import rateLimit from "express-rate-limit";
 
+import { createServer } from "http";
+import { Server } from "socket.io";
+import onConnection from "./services/socketio";
+
 const userLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 100,
@@ -27,12 +31,6 @@ const loopPrevent = rateLimit({
   },
 });
 const server = express();
-
-server.use(userLimiter, loopPrevent);
-// server.use((req, res, next) => {
-//   res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5173');
-//   next();
-// });
 server.use(
   cors({
     origin: CLIENT_BASE_URL,
@@ -40,6 +38,9 @@ server.use(
     credentials: true,
   })
 );
+
+server.use(userLimiter, loopPrevent);
+
 server.use(morgan("dev"));
 server.use(express.json());
 server.use(cookieParser());
@@ -48,4 +49,15 @@ server.use(router);
 
 server.use(errorHandler);
 
-export default server;
+// socket.io
+const httpServer = createServer(server);
+const io = new Server(httpServer, {
+  cors: {
+    origin: CLIENT_BASE_URL,
+    credentials: true,
+  },
+});
+
+io.on("connection", onConnection(io));
+
+export default httpServer;
