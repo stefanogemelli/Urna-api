@@ -7,6 +7,7 @@ import { response } from "../utils";
 export const getUser = async (req, res) => {
   const userDataFromAuth0 = req.oidc.user;
 
+  if (!userDataFromAuth0) res.redirect(CLIENT_BASE_URL);
   const userData = await User.findByEmail(userDataFromAuth0.email);
 
   if (userData.length > 0) {
@@ -42,5 +43,7 @@ export const logout = async (req, res) => {
   jwt.verify(token, JWT_SECRET);
 
   res.clearCookie("token");
+  res.clearCookie("userData");
+  res.clearCookie("appSession");
   response(res, 200, "ok");
 };
