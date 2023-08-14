@@ -1,3 +1,5 @@
+import { responseHandler } from "./handlers";
+
 export default function onConnection(io) {
   return function (socket) {
     console.log("Connect", socket.id);
@@ -13,12 +15,10 @@ export default function onConnection(io) {
       socket.leave(`room:${roomType}:${roomId}`);
       console.log(`${socket.id} abandonó la sala: room:${roomType}:${roomId}`);
     };
-
     socket.on("room:join", joinRoom);
     socket.on("room:leave", leaveRoom);
 
-    socket.on("message", (msg) => {
-      socket.broadcast.emit("server:message", msg);
-    });
+    // voteHandler(io, socket);
+    responseHandler(io, socket);
   };
 }

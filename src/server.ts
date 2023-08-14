@@ -9,7 +9,7 @@ import rateLimit from "express-rate-limit";
 
 import { createServer } from "http";
 import { Server } from "socket.io";
-import onConnection from "./services/socketio";
+import onConnection from "./socketio";
 
 const userLimiter = rateLimit({
   windowMs: 60 * 1000,
@@ -58,6 +58,9 @@ const io = new Server(httpServer, {
   },
 });
 
+io.use((socket, next) => {
+  cookieParser()(socket.request, socket.request, next);
+});
 io.on("connection", onConnection(io));
 
 export default httpServer;
