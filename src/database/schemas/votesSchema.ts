@@ -18,6 +18,7 @@ export interface VoteModel extends Model<IVote> {
   insert(newVote: IVote): IVote;
   setResponse(data): IVote;
   addOrRemoveLike(likeData: { user_id: string; vote_id: string }): { result: string };
+  like(likeDAta: { vote_id: string; user_id: string }): void;
 }
 
 const voteSchema = new Schema<IVote, VoteModel>(
@@ -91,6 +92,17 @@ voteSchema.statics.addOrRemoveLike = async function (likeData) {
   vote.likes.push(user_id);
   await vote.save();
   return { result: "like" };
+};
+
+voteSchema.statics.like = async function (likeData) {
+  const { vote_id, user_id } = likeData;
+  const vote = await this.findById(vote_id);
+
+  const likesSet = new Set(vote.likes);
+  likesSet.add(user_id);
+  vote.likes = [...likesSet];
+
+  await vote.save();
 };
 
 voteSchema.statics.setResponse = async function (responseData) {
