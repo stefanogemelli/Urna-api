@@ -17,11 +17,3 @@ export const create = async (req, res) => {
   response(res, 201, newVote);
 };
 
-export const like = async (req, res) => {
-  const { user_id } = req;
-  const { id: vote_id } = req.params;
-
-  const likeData = { user_id, vote_id };
-  const result = await Vote.addOrRemoveLike(likeData);
-  response(res, 201, result);
-};

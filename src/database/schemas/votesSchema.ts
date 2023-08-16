@@ -17,8 +17,8 @@ export interface VoteModel extends Model<IVote> {
   getWithResponses(id: string): IVote;
   insert(newVote: IVote): IVote;
   setResponse(data): IVote;
-  addOrRemoveLike(likeData: { user_id: string; vote_id: string }): { result: string };
   like(likeDAta: { vote_id: string; user_id: string }): void;
+  dislike(likeDAta: { vote_id: string; user_id: string }): void;
 }
 
 const voteSchema = new Schema<IVote, VoteModel>(
@@ -81,18 +81,6 @@ voteSchema.statics.insert = async function (voteData: IVote) {
 
   return await this.create(voteData);
 };
-voteSchema.statics.addOrRemoveLike = async function (likeData) {
-  const { vote_id, user_id } = likeData;
-  const vote = await this.findById(vote_id);
-  if (vote.likes.includes(user_id)) {
-    vote.likes = vote.likes.filter((like) => like !== user_id);
-    await vote.save();
-    return { result: "dislike" };
-  }
-  vote.likes.push(user_id);
-  await vote.save();
-  return { result: "like" };
-};
 
 voteSchema.statics.like = async function (likeData) {
   const { vote_id, user_id } = likeData;
@@ -101,6 +89,16 @@ voteSchema.statics.like = async function (likeData) {
   const likesSet = new Set(vote.likes);
   likesSet.add(user_id);
   vote.likes = [...likesSet];
+
+  await vote.save();
+};
+
+voteSchema.statics.dislike = async function (likeData) {
+  const { vote_id, user_id } = likeData;
+  const vote = await this.findById(vote_id);
+
+  const filteredLikes = vote.likes.filter((like)=>like!=user_id);
+  vote.likes = filteredLikes;
 
   await vote.save();
 };
