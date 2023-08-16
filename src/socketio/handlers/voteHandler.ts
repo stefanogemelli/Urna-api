@@ -9,5 +9,15 @@ export const voteHandler = (io, socket) => {
     } catch (error) {}
   };
 
+  const dislike = async ({ vote_id }, callback) => {
+    const user_id = socket.request.cookies.userData._id;
+    try {
+      await VoteRepository.dislike({ vote_id, user_id });
+      callback(vote_id);
+    } catch (error) {}
+  };
+
   socket.on("vote:like", like);
+  socket.on("vote:dislike", dislike);
+
 };
