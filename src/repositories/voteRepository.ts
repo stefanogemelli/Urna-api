@@ -10,4 +10,6 @@ export const VoteRepository = {
     vote_id: string;
     user_id: string;
   }): Promise<{ result: string }> => Vote.addOrRemoveLike(likeDAta),
+  like: async (likeDAta: { vote_id: string; user_id: string }): Promise<void> =>
+    Vote.like(likeDAta),
 };
